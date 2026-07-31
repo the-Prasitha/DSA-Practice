@@ -1,19 +1,30 @@
-import java.util.*;
+import java.util.Arrays;
 
-class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        HashMap<Integer, Integer> map = new HashMap<>();
+public class Main {
 
-        for (int i = 0; i < nums.length; i++) {
-            int complement = target - nums[i];
+    public static int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[n];
 
-            if (map.containsKey(complement)) {
-                return new int[]{map.get(complement), i};
-            }
-
-            map.put(nums[i], i);
+        ans[0] = 1;
+        for (int i = 1; i < n; i++) {
+            ans[i] = ans[i - 1] * nums[i - 1];
         }
 
-        return new int[]{};
+        int rightProduct = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            ans[i] *= rightProduct;
+            rightProduct *= nums[i];
+        }
+
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 3, 4};
+
+        int[] result = productExceptSelf(nums);
+
+        System.out.println(Arrays.toString(result));
     }
 }
